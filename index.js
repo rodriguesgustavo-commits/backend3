@@ -7,11 +7,21 @@ const port = 3000
 app.use(express.json())
 const fs = require('fs')
 
-// seu código para cadastrar, ver, deletar, etc
+const arquivoID = JSON.parse(fs.readFileSync("id.json", "utf8"))
+let id = arquivoID.id
+
+function atualizarID() {
+    id = id + 1
+    fs.writeFileSync("id.json", JSON.stringify({id: id}), "utf8")
+}
+
 app.post("/produto", (req, res) => {
     const produto = req.body
     try {
         const produtos = JSON.parse(fs.readFileSync("produto.json", "utf8"))
+        id - id + 1
+        produto.id = id + 1
+        console.log(produto)
         produtos.push(produto)
         fs.writeFileSync("produtos.json", JSON.stringifly(produtos), "utf8")
         res.status(201).json({mensagem: "Produto cadastrado!"})
