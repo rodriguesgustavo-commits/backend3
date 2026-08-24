@@ -30,7 +30,16 @@ app.post("/aula", (req, res) => {
     }
 })
 
-
+app.get("/segunda", (req, res) => {
+    try {
+        const aulas = JSON.parse(fs.readFileSync("aulas.json", "utf8"))
+        const Dia_Da_Semana = aulas.filter((aula) => aula.Dia_Da_Semana == "segunda")
+        const ordem_aula = Dia_Da_Semana.sort((a, b) => a.ordem_aula - b.ordem_aula)
+        res.status(200).json(ordem_aula)
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})
 
 
 app.listen(port, () => {
