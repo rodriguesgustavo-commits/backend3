@@ -41,6 +41,10 @@ app.get("/segunda", (req, res) => {
     }
 })
 
+ app.get("/segunda/:Dia_Da_Semana", (req, res) => {
+    const Dia_Da_Semana = req.params.Dia_De_Semana
+    
+ })
 
 app.listen(port, () => {
     console.log("API rodando da porta " + port)
