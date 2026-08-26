@@ -46,6 +46,24 @@ app.get("/segunda", (req, res) => {
     
  })
 
+app.delete("/aula/:id", (req, res) => {
+    const idParaDeletar = parseInt(req.params.id)
+
+    try {
+        const aulas = JSON.parse(fs.readFileSync("aulas.json", "utf8"))
+        const index = aulas.findIndex(aula => aula.id === idParaDeletar)
+        if (index === -1) {
+            return res.status(404).json({ mensagem: "Aula não encontrada!" })
+        }
+        aulas.splice(index, 1)
+        fs.writeFileSync("aulas.json", JSON.stringify(aulas, null, 2), "utf8")
+
+        res.status(200).json({ mensagem: "Aula excluída com sucesso!" })
+    } catch (error) {
+        res.status(500).json({ erro: error.message })
+    }
+})
+
 app.listen(port, () => {
     console.log("API rodando da porta " + port)
 })
