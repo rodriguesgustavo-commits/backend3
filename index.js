@@ -8,6 +8,11 @@ const port = 3000
 app.use(express.json())
 const fs = require('fs')
 
+
+// npm i cors
+const cors = require("cors")
+app.use(cors())
+
 const arquivoID = JSON.parse(fs.readFileSync("id.json", "utf8"))
 let id = arquivoID.id
 
@@ -41,6 +46,28 @@ app.get("/segunda", (req, res) => {
     }
 })
 
+app.get("/terca", (req, res) => {
+    try {
+        const aulas = JSON.parse(fs.readFileSync("aulas.json", "utf8"))
+        const Dia_Da_Semana = aulas.filter((aula) => aula.Dia_Da_Semana == "terça")
+        const ordem_aula = Dia_Da_Semana.sort((a, b) => a.ordem_aula - b.ordem_aula)
+        res.status(200).json(ordem_aula)
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})
+
+app.get("/quarta", (req, res) => {
+    try {
+        const aulas = JSON.parse(fs.readFileSync("aulas.json", "utf8"))
+        const Dia_Da_Semana = aulas.filter((aula) => aula.Dia_Da_Semana == "quarta")
+        const ordem_aula = Dia_Da_Semana.sort((a, b) => a.ordem_aula - b.ordem_aula)
+        res.status(200).json(ordem_aula)
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})
+
  app.get("/segunda/:Dia_Da_Semana", (req, res) => {
     const Dia_Da_Semana = req.params.Dia_De_Semana
     
@@ -67,3 +94,5 @@ app.delete("/aula/:id", (req, res) => {
 app.listen(port, () => {
     console.log("API rodando da porta " + port)
 })
+
+
